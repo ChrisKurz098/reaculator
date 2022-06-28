@@ -12,25 +12,21 @@ const Calulator = () => {
         let input = event.target.id;
         //grab the equation and convert it into a string for processing
         let equation = screenState.join().replaceAll(",", "");
+        //this will create an array containing all the numbers in the equation
+        const nums = equation.split(/[+]|[-]|[/]|[*]|[(]|[)]/);
 
-
-        const numsWithoutPerenth = equation.split(/[+]|[-]|[/]|[*]|[(]|[)]/);
-
-        //check if () is pressed and set input accordingly
+        //check if '()' is pressed and set input accordingly
         if (input === '()') if (perenthToggle) { input = ')'; setPerenthToggle(0) } else { input = '('; setPerenthToggle(1) };
         if (input === '(' && !isNaN(parseInt(screenState.at(-1)))) input = '*(';
         if (input === '(' && screenState.at(-1) === ')') input = '*(';
-        // if (input === ')' && screenState.at(-1) === ')') input = '*(';
+       
 
-
-        //this will create an array containing all the numbers in the equation
-
-        //if the current number being typed already contains a '.' return. Do nothing.
-        if (input === '.' && numsWithoutPerenth.at(-1).includes('.')) return;
-
+        //check if '.' is pressed and set input accordingly
+        if (input === '.' && nums.at(-1).includes('.')) return;
         if (input === '.' && isNaN(screenState.at(-1))) input = "0.";
+        if (!isNaN(parseInt(input)) && screenState.at(-1) === ')') input = "*" + input;
 
-        //this makes sure clear the zero if only a zero is in the screenState
+        //this makes sure to clear the zero if only a zero is in the screenState
         if (screenState.length === 1 && screenState[0] === 0 && !isNaN(input)) {
             setScreenState(old => ([input]));
         } else {
