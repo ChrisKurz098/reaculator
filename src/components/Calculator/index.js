@@ -32,6 +32,8 @@ const Calulator = () => {
         } else {
             setScreenState(old => ([...old, input]));
         }
+        const elem = document.getElementById('calcScreen');
+        elem.scrollTop = elem.scrollHeight;
     }
 
     const calculateValue = () => {

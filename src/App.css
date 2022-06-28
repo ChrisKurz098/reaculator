@@ -46,6 +46,9 @@
 }
 
 #calcScreen{
+  height: 125px;
+  overflow: auto;
+  overflow-wrap: anywhere;
   margin: 20px 50px 20px 50px;
   padding: 10px;
   text-align: right;
@@ -69,8 +72,8 @@ padding: 8px;
 }
 #clrrcl{
   position: absolute;
- top: 450px;
- left: 150px;
+ top: 550px;
+ left: 145px;
 }
 
 button {
