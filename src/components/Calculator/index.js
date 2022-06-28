@@ -1,30 +1,65 @@
 import React, { useState, useEffect, useRef } from "react";
 import Screen from "./Parts/Screen";
-import Button from "./Parts/Button";
+
 
 const Calulator = () => {
 
     const [screenState, setScreenState] = useState([0])
+    const [prevEqu, setPrevEqu] = useState([0]);
+    const [perenthToggle, setPerenthToggle] = useState(0);
 
     const updateCalculation = (event) => {
-        setScreenState(old => ([...old, event.target.id]));
+        let input = event.target.id;
+        //grab the equation and convert it into a string for processing
+        let equation = screenState.join().replaceAll(",", "");
 
+
+        const numsWithoutPerenth = equation.split(/[+]|[-]|[/]|[*]|[(]|[)]/);
+
+        //check if () is pressed and set input accordingly
+        if (input === '()') if (perenthToggle) { input = ')'; setPerenthToggle(0) } else { input = '('; setPerenthToggle(1) };
+        if (input === '(' && !isNaN(parseInt(screenState.at(-1)))) input = '*(';
+        if (input === '(' && screenState.at(-1) === ')') input = '*(';
+        // if (input === ')' && screenState.at(-1) === ')') input = '*(';
+
+
+        //this will create an array containing all the numbers in the equation
+
+        //if the current number being typed already contains a '.' return. Do nothing.
+        if (input === '.' && numsWithoutPerenth.at(-1).includes('.')) return;
+
+        if (input === '.' && isNaN(screenState.at(-1))) input = "0.";
+
+        //this makes sure clear the zero if only a zero is in the screenState
+        if (screenState.length === 1 && screenState[0] === 0 && !isNaN(input)) {
+            setScreenState(old => ([input]));
+        } else {
+            setScreenState(old => ([...old, input]));
+        }
     }
 
     const calculateValue = () => {
+        //grab the equation and convert it into a string for processing
         let equation = screenState.join().replaceAll(",", "");
-
-        setScreenState(() => ([eval(equation)]));
-
-    }
-    const deleteLast = () => {
-        if (screenState.length>1){
-        const newVal = screenState.slice(0,-1);
-        setScreenState(newVal);
-        } else {
-            setScreenState([0]);
+        setPrevEqu(old => ([...old, equation]));
+        let answer = 0;
+        try {
+            answer = eval(equation)
+        } catch (error) {
+            return;
         }
+        //evaluate equation as string and set screenState to this value
+        setScreenState(() => ([answer]));
     }
+
+    //function to delete last character or clear to zero
+    const deleteLast = () => (screenState.length > 1) ? setScreenState(old => old.slice(0, -1)) : setScreenState([0]);
+    const getPrevEqu = () => {
+        let last = prevEqu.pop();
+        if (last === undefined) last = 0;
+        setScreenState([last])
+    }
+
 
 
     return (
@@ -50,13 +85,19 @@ const Calulator = () => {
             <div>
                 <button type="button" id="0" onClick={updateCalculation}>0</button>
                 <button type="button" id="." onClick={updateCalculation}>.</button>
-                <button type="button" id="DEL" onClick={deleteLast}>DEL</button>
+                <button type="button" id="DEL" onClick={deleteLast}>BK</button>
             </div>
-            <button type="button" id="+" onClick={updateCalculation}>+</button>
-            <button type="button" id="-" onClick={updateCalculation}>-</button>
-            <button type="button" id="/" onClick={updateCalculation}>/</button>
-            <button type="button" id="*" onClick={updateCalculation}>*</button>
-            <button type="button" id="=" onClick={calculateValue}>=</button>
+            <div>
+                <button type="button" id="+" onClick={updateCalculation}>+</button>
+                <button type="button" id="-" onClick={updateCalculation}>-</button>
+                <button type="button" id="/" onClick={updateCalculation}>/</button>
+                <button type="button" id="*" onClick={updateCalculation}>*</button>
+                <button type="button" id="()" onClick={updateCalculation}>( )</button>
+                <button type="button" id="=" onClick={calculateValue}>=</button>
+
+            </div>
+            <button type="button" id="CLR" onClick={() => setScreenState([0])}>CLR</button>
+            <button type="button" id="CLR" onClick={getPrevEqu}>RECALL</button>
 
 
 
