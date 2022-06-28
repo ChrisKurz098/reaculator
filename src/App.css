@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+#calculator{
+  margin: 5vh;
+  width: 500px;
+  height: 600px;
+  border: 10px solid black;
+  border-radius: 25px;
+}
+
+#calcScreen{
+  margin: 20px 50px 20px 50px;
+  padding: 10px;
+  text-align: right;
+  font-size: xx-large;
+  border: 4px solid black;
+}
