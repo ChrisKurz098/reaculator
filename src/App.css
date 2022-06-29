@@ -38,6 +38,8 @@
 }
 
 #calculator{
+  background-image: url('./assets/plasticTexture.jpg');
+  background-size: contain;
   margin: 5vh;
   width: 500px;
   height: 600px;
@@ -46,6 +48,8 @@
 }
 
 #calcScreen{
+  background-color: aliceblue;
+  border-radius: 20px;
   height: 125px;
   overflow: auto;
   overflow-wrap: anywhere;
@@ -77,9 +81,21 @@ padding: 8px;
 }
 
 button {
+  border-radius: 10px;
   width: 100px;
   height: 50px;
   margin: 5px;
   font-size: xx-large;
+  
+  background-color: #F5F5DC;
+  border: 3px solid black;
+  border-spacing: 20px;
+  box-shadow: 3px 3px 3px rgb(85, 85, 85);
 }
 
+button:hover{
+  background-color:#e3e1c9
+}
+button:active{
+  box-shadow: 1px 1px 1px rgb(85, 85, 85);
+}
