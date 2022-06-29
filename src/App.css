@@ -57,23 +57,23 @@
 }
 
 #numPad {
-position: absolute;
-
+position: relative;
+left: -75px;
 margin: 8px;
 padding: 8px;
 }
 #btnInputs{
-position: absolute;
+position: relative;
 width: 100px;
-left: 425px;
-
+left: 350px;
+top: -250px;
 margin: 8px;
 padding: 8px;
 }
 #clrrcl{
-  position: absolute;
- top: 550px;
- left: 145px;
+  position: relative;
+ top: -350px;
+ left: -75px;
 }
 
 button {
