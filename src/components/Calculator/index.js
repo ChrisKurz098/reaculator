@@ -6,7 +6,7 @@ const Calulator = () => {
 
     const [screenState, setScreenState] = useState([0])
     const [prevEqu, setPrevEqu] = useState([0]);
-    const [perenthToggle, setPerenthToggle] = useState(0);
+    const [perenthToggle, setPerenthToggle] = useState(false);
 
     const updateCalculation = (event) => {
         let input = event.target.id;
@@ -15,20 +15,20 @@ const Calulator = () => {
         //this will create an array containing all the numbers in the equation
         const nums = equation.split(/[+]|[-]|[/]|[*]|[(]|[)]/);
 
-        //check if '()' is pressed and set input accordingly
+        //check if '()' is pressed then set input accordingly
         if (input === '()') if (perenthToggle) { input = ')'; setPerenthToggle(0) } else { input = '('; setPerenthToggle(1) };
         if (input === '(' && !isNaN(parseInt(screenState.at(-1)))) input = '*(';
         if (input === '(' && screenState.at(-1) === ')') input = '*(';
 
 
-        //check if '.' is pressed and set input accordingly
+        //check if '.' is pressed then set input accordingly
         if (input === '.' && nums.at(-1).includes('.')) return;
         if (input === '.' && isNaN(screenState.at(-1))) input = "0.";
         if (!isNaN(parseInt(input)) && screenState.at(-1) === ')') input = "*" + input;
 
         //this makes sure to clear the zero if only a zero is in the screenState
         if (screenState.length === 1 && screenState[0] === 0 && !isNaN(input)) {
-            setScreenState(old => ([input]));
+            setScreenState(_ => ([input]));
         } else {
             setScreenState(old => ([...old, input]));
         }
@@ -51,7 +51,14 @@ const Calulator = () => {
     }
 
     //function to delete last character or clear to zero
-    const deleteLast = () => (screenState.length > 1) ? setScreenState(old => old.slice(0, -1)) : setScreenState([0]);
+    const deleteLast = () => {
+        //check if last character is perenth
+        if (screenState.at(-1).at(-1) === "(" || screenState.at(-1).at(-1) === ")" ) setPerenthToggle(old => (!old));
+        if (screenState.length > 1) {
+            setScreenState(old => old.slice(0, -1))
+        } else { setScreenState([0]); }
+    }
+
     const getPrevEqu = () => {
         let last = prevEqu.pop();
         if (last === undefined) last = 0;
@@ -96,8 +103,11 @@ const Calulator = () => {
                 <button type="button" id="=" onClick={calculateValue}>=</button>
             </div>
             <div id="clrrcl">
-            <button type="button" id="RCL" onClick={getPrevEqu}>RCL</button>
-            <button type="button" id="CLR" onClick={() => setScreenState([0])}>CLR</button>
+                <button type="button" id="RCL" onClick={getPrevEqu}>RCL</button>
+                <button type="button" id="CLR" onClick={() => {
+                    setScreenState([0])
+                    setPerenthToggle(false);
+                    }}>CLR</button>
             </div>
         </div>
     )
