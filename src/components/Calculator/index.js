@@ -42,7 +42,8 @@ const Calulator = () => {
         setPrevEqu(old => ([...old, equation]));
         let answer = 0;
         try {
-            answer = eval(equation)
+            answer = eval(equation);
+            answer = Math.floor(answer*10000000000000000)/10000000000000000;
         } catch (error) {
             return;
         }
