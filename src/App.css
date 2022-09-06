@@ -38,6 +38,7 @@
 }
 
 #calculator{
+  display: inline-block;
   background-image: url('./assets/plasticTexture.jpg');
   background-size: contain;
   margin: 1vh;
@@ -61,8 +62,10 @@
 }
 
 #numPad {
+  display: inline-block;
 position: relative;
 left: -75px;
+top: 20px;
 margin: 8px;
 padding: 8px;
 }
@@ -70,14 +73,15 @@ padding: 8px;
 position: relative;
 width: 100px;
 left: 350px;
-top: -250px;
+top: -275px;
 margin: 8px;
 padding: 8px;
 }
 #clrrcl{
+  display: inline-block;
   position: relative;
  top: -350px;
- left: -75px;
+ left: -72px;
 }
 
 button {
